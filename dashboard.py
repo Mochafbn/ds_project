@@ -56,12 +56,11 @@ def create_rfm_df(df):
 
 
 
-datetime_columns = ["order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date", "order_approved_at", "order_purchase_timestamp"]
 orders_number_df.sort_values(by="order_delivered_customer_date", inplace=True)
 orders_number_df.reset_index(inplace=True)
  
-for column in datetime_columns:
-    orders_number_df[column] = pd.to_datetime(orders_number_df[column])
+
+orders_number_df[ "order_delivered_customer_date"] = pd.to_datetime(orders_number_df[ "order_delivered_customer_date"])
 
 monthly_orders_df = orders_number_df.resample(rule='M', on='order_delivered_customer_date').agg({
     "order_id": "nunique",
